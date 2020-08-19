@@ -3,10 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:my_wheel_of_fortune/utils/models/game_action.dart';
 import 'dart:math' as math;
 
-class ActionsList extends StatelessWidget {
+class ActionsList extends StatefulWidget {
+  final List<GameAction> actionsList;
+  ActionsList(this.actionsList);
+
+  @override
+  ActionsListState createState() => ActionsListState(actionsList);
+}
+
+class ActionsListState extends State<ActionsList> {
   final List<GameAction> actionsList;
 
-  ActionsList(this.actionsList);
+  ActionsListState(this.actionsList);
 
   final _listWheelController = ScrollController();
 
@@ -54,7 +62,7 @@ class ActionsList extends StatelessWidget {
                                     actionsList[index].actionName,
                                     style: TextStyle(
                                         color: Colors.orangeAccent,
-                                        fontSize: 20,
+                                        fontSize: 25,
                                         fontWeight: FontWeight.bold),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
@@ -83,7 +91,7 @@ class ActionsList extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
+              actionsList.length > 2 ? Align(
                 alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 20.0, bottom: 147.5),
@@ -108,7 +116,7 @@ class ActionsList extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
+              ) : Container()
             ],
           )
         : Container(
@@ -133,7 +141,16 @@ class ActionsList extends StatelessWidget {
   }
 
   randomAction() {
-    _listWheelController.animateTo(math.Random().nextDouble(),
-        duration: Duration(seconds: 4), curve: Curves.decelerate);
+    setState(() {
+      var random = math.Random();
+      var randomNumber = 0 + random.nextInt(actionsList.length - 0);
+      print(randomNumber);
+      print(_listWheelController.position);
+
+      _listWheelController.animateTo(randomNumber.toDouble() * 7550,
+          duration: Duration(seconds: 4), curve: Curves.decelerate);
+
+      print(_listWheelController.position);
+    });
   }
 }

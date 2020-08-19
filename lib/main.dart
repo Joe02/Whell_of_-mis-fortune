@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_wheel_of_fortune/pages/game_screen_page.dart';
+import 'package:my_wheel_of_fortune/pages/game_selection_page.dart';
 void main() {
   runApp(MyApp());
 }
@@ -24,6 +25,6 @@ class MyHomePage extends StatefulWidget {
 class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return GameScreen();
+    return GameSelectionPage();
   }
 }
