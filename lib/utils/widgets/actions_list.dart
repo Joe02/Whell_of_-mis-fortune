@@ -1,41 +1,46 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_wheel_of_fortune/utils/models/game_action.dart';
+import 'dart:math' as math;
 
 class ActionsList extends StatelessWidget {
   final List<GameAction> actionsList;
 
   ActionsList(this.actionsList);
 
+  final _listWheelController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return actionsList.isNotEmpty
         ? Stack(
-          children: <Widget>[Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20.0),
-              child: Icon(
-                Icons.arrow_right,
-                color: Colors.orange,
-                size: 50,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Icon(
+                    Icons.arrow_right,
+                    color: Colors.orange,
+                    size: 50,
+                  ),
+                ),
               ),
-            ),
-          ),
-            Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width / 12),
                 child: new ListWheelScrollView.useDelegate(
-                  diameterRatio: 4,
-                  itemExtent: MediaQuery.of(context).size.width / 6.5,
-                  squeeze: 1.09,
+                  controller: _listWheelController,
+                  diameterRatio: 3,
+                  itemExtent: MediaQuery.of(context).orientation == Orientation.landscape ? MediaQuery.of(context).size.width / 8.5 : MediaQuery.of(context).size.width / 6.5,
+                  squeeze: MediaQuery.of(context).orientation == Orientation.landscape ? 1.05 : 1.10,
                   childDelegate: ListWheelChildLoopingListDelegate(
                     children: List<Widget>.generate(
                       actionsList.length,
                       (index) => Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Card(
-                          elevation: 5,
+                          elevation: 0,
                           color: Colors.black12,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
@@ -56,8 +61,8 @@ class ActionsList extends StatelessWidget {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 18.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 18.0),
                                   child: Text(
                                     actionsList[index].actionDescription,
                                     style: TextStyle(
@@ -78,8 +83,34 @@ class ActionsList extends StatelessWidget {
                   ),
                 ),
               ),
-          ],
-        )
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20.0, bottom: 147.5),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black12,
+                      border: Border.all(
+                        color: Colors.orangeAccent,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: FloatingActionButton(
+                      backgroundColor: Colors.black12,
+                      onPressed: () {
+                        randomAction();
+                      },
+                      child: Icon(
+                        Icons.help_outline,
+                        color: Colors.orange,
+                        size: 40,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
         : Container(
             child: Center(
               child: Stack(
@@ -99,5 +130,10 @@ class ActionsList extends StatelessWidget {
               ),
             ),
           );
+  }
+
+  randomAction() {
+    _listWheelController.animateTo(math.Random().nextDouble(),
+        duration: Duration(seconds: 4), curve: Curves.decelerate);
   }
 }

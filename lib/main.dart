@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:my_wheel_of_fortune/utils/models/game_action.dart';
 import 'package:my_wheel_of_fortune/utils/widgets/actions_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,9 +31,8 @@ class MyHomePageState extends State<MyHomePage> {
   final _prefs = SharedPreferences.getInstance();
   var prefs;
 
-
   @override
-  void initState()  {
+  void initState() {
     super.initState();
   }
 
@@ -41,15 +41,12 @@ class MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         appBar: buildAppBar(),
         backgroundColor: Colors.black54,
-        body: buildHomePageBackground(
-            Stack(
-              children: <Widget>[
-                buildActionsListWheel(),
-                buildActions(),
-              ],
-            )
-        )
-    );
+        body: buildHomePageBackground(Stack(
+          children: <Widget>[
+            buildActionsListWheel(),
+            buildActions(),
+          ],
+        )));
   }
 
   buildAppBar() {
@@ -57,24 +54,28 @@ class MyHomePageState extends State<MyHomePage> {
       backgroundColor: Colors.black,
       elevation: 1,
       centerTitle: true,
-      title: Text(listName, style: TextStyle(fontSize: 25),),
+      title: Text(
+        listName,
+        style: TextStyle(fontSize: 25),
+      ),
     );
   }
 
   buildHomePageBackground(Widget child) {
     return Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.1, 0.9],
-                colors: [
-                  Colors.black,
-                  Colors.black87,
-                ]
-            )
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: [0.1, 0.9],
+          colors: [
+            Colors.black,
+            Colors.black87,
+          ],
         ),
-        child: child);
+      ),
+      child: child,
+    );
   }
 
   buildActionsListWheel() {
@@ -82,8 +83,8 @@ class MyHomePageState extends State<MyHomePage> {
     List<GameAction> finalActionsList = [];
 
     for (index = 0; index < actionsList.length; index++) {
-      finalActionsList.add(
-          GameAction(actionsList[index], actionsDescriptionList[index]));
+      finalActionsList
+          .add(GameAction(actionsList[index], actionsDescriptionList[index]));
     }
 
     return ActionsList(finalActionsList);
@@ -148,6 +149,7 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   addGameActionToList() {
+    displayBottomSheetModal();
     var verification = false;
     var count = 0;
 //    while (verification != true) {
@@ -176,5 +178,84 @@ class MyHomePageState extends State<MyHomePage> {
       actionsList.add("Pejeeeee");
       actionsDescriptionList.add("Pejão");
     });
+  }
+
+  displayBottomSheetModal() {
+    showModalBottomSheet(
+      backgroundColor: Colors.black,
+      context: context,
+      builder: (context) => Container(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        decoration: new BoxDecoration(
+            color: Colors.black,
+            border: Border.all(
+                color: Colors.orange, width: 1.0, style: BorderStyle.solid),
+            borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(20.0),
+                topRight: const Radius.circular(20.0))),
+        child: ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Theme(
+              data: ThemeData(primaryColor: Colors.orangeAccent),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderSide: BorderSide(color: Colors.orangeAccent)),
+                      prefixIcon: Icon(
+                        Icons.mode_edit,
+                        color: Colors.orangeAccent,
+                      ),
+                      hintText: "Nome do Desafio",
+                      hintStyle:
+                          TextStyle(color: Colors.orangeAccent, fontSize: 19)),
+                ),
+              ),
+            ),
+            Theme(
+              data: ThemeData(primaryColor: Colors.orangeAccent),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          borderSide: BorderSide(color: Colors.orangeAccent)),
+                      prefixIcon: Icon(
+                        Icons.chat,
+                        color: Colors.orangeAccent,
+                      ),
+                      hintText: "Descrição do Desafio",
+                      hintStyle:
+                          TextStyle(color: Colors.orangeAccent, fontSize: 19)),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25)),
+                color: Colors.orange,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    "Adicionar",
+                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                onPressed: () {},
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
