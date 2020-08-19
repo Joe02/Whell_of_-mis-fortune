@@ -29,6 +29,8 @@ class MyHomePageState extends State<MyHomePage> {
   List<String> actionsList = [];
   List<String> actionsDescriptionList = [];
   final _prefs = SharedPreferences.getInstance();
+  final _actionNameController = TextEditingController();
+  final _actionDescriptionController = TextEditingController();
   var prefs;
 
   @override
@@ -203,6 +205,8 @@ class MyHomePageState extends State<MyHomePage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 child: TextFormField(
+                  style: TextStyle(color: Colors.orangeAccent),
+                  controller: _actionNameController,
                   decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -223,6 +227,8 @@ class MyHomePageState extends State<MyHomePage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 child: TextFormField(
+                  style: TextStyle(color: Colors.orangeAccent),
+                  controller: _actionDescriptionController,
                   decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -250,7 +256,18 @@ class MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  if (_actionNameController.text.isNotEmpty && _actionDescriptionController.text.isNotEmpty) {
+                    setState(() {
+                      actionsList.add(_actionNameController.text);
+                      actionsDescriptionList.add(_actionDescriptionController.text);
+
+                      _actionNameController.clear();
+                      _actionDescriptionController.clear();
+                    });
+                    Navigator.pop(context);
+                  }
+                },
               ),
             )
           ],
