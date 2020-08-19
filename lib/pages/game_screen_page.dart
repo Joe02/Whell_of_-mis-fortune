@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_wheel_of_fortune/pages/actions_list_edit_page.dart';
 import 'package:my_wheel_of_fortune/utils/models/game_action.dart';
 import 'package:my_wheel_of_fortune/utils/models/game_list.dart';
 import 'package:my_wheel_of_fortune/utils/widgets/actions_list.dart';
@@ -16,6 +17,7 @@ class GameScreen extends StatefulWidget {
 class GameScreenState extends State<GameScreen> {
   final _actionNameController = TextEditingController();
   final _actionDescriptionController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -25,9 +27,7 @@ class GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.orange,
-        accentColor: Colors.orangeAccent
-      ),
+          primaryColor: Colors.orange, accentColor: Colors.orangeAccent),
       home: Scaffold(
         appBar: buildAppBar(),
         backgroundColor: Colors.black54,
@@ -53,7 +53,11 @@ class GameScreenState extends State<GameScreen> {
           },
           child: Padding(
             padding: const EdgeInsets.only(left: 20.0),
-            child: Icon(Icons.chevron_left, color: Colors.white, size: 50,),
+            child: Icon(
+              Icons.chevron_left,
+              color: Colors.white,
+              size: 50,
+            ),
           )),
       centerTitle: true,
       title: Text(
@@ -116,33 +120,36 @@ class GameScreenState extends State<GameScreen> {
             ),
           ),
         ),
-        widget.gameList.gameActions.length > 0 ? Align(
-          alignment: Alignment.bottomRight,
-          child: InkWell(
-            onTap: () {
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20.0, bottom: 10),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.black12,
-                  border: Border.all(
-                    color: Colors.orangeAccent,
+        widget.gameList.gameActions.length > 0
+            ? Align(
+                alignment: Alignment.bottomRight,
+                child: InkWell(
+                  onTap: () {
+                    editListActions();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20.0, bottom: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black12,
+                        border: Border.all(
+                          color: Colors.orangeAccent,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Icon(
+                          Icons.view_list,
+                          color: Colors.orange,
+                          size: 50,
+                        ),
+                      ),
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(20),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Icon(
-                    Icons.view_list,
-                    color: Colors.orange,
-                    size: 50,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ) : Container()
+              )
+            : Container()
       ],
     );
   }
@@ -242,6 +249,16 @@ class GameScreenState extends State<GameScreen> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  editListActions() {
+    Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) => ActionsListEditPage(
+          widget.gameList.gameActions,
         ),
       ),
     );
