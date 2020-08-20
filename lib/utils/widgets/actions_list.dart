@@ -5,6 +5,7 @@ import 'dart:math' as math;
 
 class ActionsList extends StatefulWidget {
   final List<GameAction> actionsList;
+
   ActionsList(this.actionsList);
 
   @override
@@ -36,54 +37,57 @@ class ActionsListState extends State<ActionsList> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 12),
+                    horizontal: MediaQuery.of(context).size.width / 10),
                 child: new ListWheelScrollView.useDelegate(
                   controller: _listWheelController,
-                  diameterRatio: 3,
-                  itemExtent: MediaQuery.of(context).orientation == Orientation.landscape ? MediaQuery.of(context).size.width / 8.5 : MediaQuery.of(context).size.width / 6.5,
-                  squeeze: MediaQuery.of(context).orientation == Orientation.landscape ? 1.05 : 1.10,
+                  diameterRatio: 2,
+                  itemExtent: MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                      ? MediaQuery.of(context).size.width / 8.5
+                      : MediaQuery.of(context).size.width / 5.5,
+                  squeeze: MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                      ? 1
+                      : 1.10,
                   childDelegate: ListWheelChildLoopingListDelegate(
                     children: List<Widget>.generate(
                       actionsList.length,
-                      (index) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
-                          elevation: 0,
-                          color: Colors.black12,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              side: BorderSide(color: Colors.orangeAccent)),
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    actionsList[index].actionName,
-                                    style: TextStyle(
-                                        color: Colors.orangeAccent,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                  ),
+                      (index) => Card(
+                        elevation: 0,
+                        color: Colors.black12,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            side: BorderSide(color: Colors.orangeAccent)),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                child: Text(
+                                  actionsList[index].actionName,
+                                  style: TextStyle(
+                                      color: Colors.orangeAccent,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 18.0),
-                                  child: Text(
-                                    actionsList[index].actionDescription,
-                                    style: TextStyle(
-                                        color: Colors.orange,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w300),
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                  ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 18.0),
+                                child: Text(
+                                  actionsList[index].actionDescription,
+                                  style: TextStyle(
+                                      color: Colors.orange,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w300),
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -91,32 +95,35 @@ class ActionsListState extends State<ActionsList> {
                   ),
                 ),
               ),
-              actionsList.length > 2 ? Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 20.0, bottom: 147.5),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black12,
-                      border: Border.all(
-                        color: Colors.orangeAccent,
+              actionsList.length > 2
+                  ? Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(right: 20.0, bottom: 147.5),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black12,
+                            border: Border.all(
+                              color: Colors.orangeAccent,
+                            ),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: FloatingActionButton(
+                            backgroundColor: Colors.black12,
+                            onPressed: () {
+                              randomAction();
+                            },
+                            child: Icon(
+                              Icons.help_outline,
+                              color: Colors.orange,
+                              size: MediaQuery.of(context).size.width / 2,
+                            ),
+                          ),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.black12,
-                      onPressed: () {
-                        randomAction();
-                      },
-                      child: Icon(
-                        Icons.help_outline,
-                        color: Colors.orange,
-                        size: 40,
-                      ),
-                    ),
-                  ),
-                ),
-              ) : Container()
+                    )
+                  : Container()
             ],
           )
         : Container(
@@ -126,12 +133,14 @@ class ActionsListState extends State<ActionsList> {
                 children: <Widget>[
                   Icon(
                     Icons.clear,
-                    size: 300,
+                    size: MediaQuery.of(context).size.width / 2,
                     color: Colors.white10,
                   ),
                   Text(
                     "Você ainda não possui nenhum desafio na lista!\nAdicione um clicando no ícone na direita.",
-                    style: TextStyle(color: Colors.white60, fontSize: 20),
+                    style: TextStyle(
+                        color: Colors.white60,
+                        fontSize: MediaQuery.of(context).size.width / 25),
                     textAlign: TextAlign.center,
                   ),
                 ],

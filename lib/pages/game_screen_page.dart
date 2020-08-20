@@ -62,7 +62,11 @@ class GameScreenState extends State<GameScreen> {
       centerTitle: true,
       title: Text(
         widget.gameList.gameListName,
-        style: TextStyle(fontSize: 25, color: Colors.white),
+        style: TextStyle(
+            fontSize: MediaQuery.of(context).orientation == Orientation.portrait
+                ? MediaQuery.of(context).size.width / 22
+                : MediaQuery.of(context).size.width / 30,
+            color: Colors.white),
       ),
     );
   }
@@ -113,7 +117,7 @@ class GameScreenState extends State<GameScreen> {
                   child: Icon(
                     Icons.add,
                     color: Colors.orange,
-                    size: 50,
+                    size: MediaQuery.of(context).size.width / 12,
                   ),
                 ),
               ),
@@ -142,7 +146,7 @@ class GameScreenState extends State<GameScreen> {
                         child: Icon(
                           Icons.view_list,
                           color: Colors.orange,
-                          size: 50,
+                          size: MediaQuery.of(context).size.width / 12,
                         ),
                       ),
                     ),
@@ -167,8 +171,7 @@ class GameScreenState extends State<GameScreen> {
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         decoration: new BoxDecoration(
             color: Colors.black,
-            border: Border.all(
-                color: Colors.orange, width: 1.0, style: BorderStyle.solid),
+            border: Border.all(width: 1.0, style: BorderStyle.solid),
             borderRadius: new BorderRadius.only(
                 topLeft: const Radius.circular(20.0),
                 topRight: const Radius.circular(20.0))),
@@ -178,58 +181,69 @@ class GameScreenState extends State<GameScreen> {
             Theme(
               data: ThemeData(primaryColor: Colors.orangeAccent),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: TextFormField(
-                  style: TextStyle(color: Colors.orangeAccent, fontSize: 20),
-                  controller: _actionNameController,
-                  decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          borderSide: BorderSide(color: Colors.orangeAccent)),
-                      prefixIcon: Icon(
-                        Icons.mode_edit,
+                padding: const EdgeInsets.only(top: 10, left: 5, right: 5),
+                child: Transform.scale(
+                  scale: .8,
+                  child: TextFormField(
+                    style: TextStyle(
                         color: Colors.orangeAccent,
-                      ),
-                      hintText: "Nome do Desafio",
-                      hintStyle:
-                          TextStyle(color: Colors.orangeAccent, fontSize: 20)),
+                        fontSize: MediaQuery.of(context).size.width / 20),
+                    controller: _actionNameController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: Icon(
+                          Icons.mode_edit,
+                          color: Colors.orangeAccent,
+                        ),
+                        hintText: "Nome da Lista",
+                        hintStyle: TextStyle(
+                            color: Colors.orangeAccent,
+                            fontSize: MediaQuery.of(context).size.width / 20)),
+                  ),
                 ),
               ),
             ),
             Theme(
               data: ThemeData(primaryColor: Colors.orangeAccent),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-                child: TextFormField(
-                  style: TextStyle(color: Colors.orangeAccent, fontSize: 20),
-                  controller: _actionDescriptionController,
-                  decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                          borderSide: BorderSide(color: Colors.orangeAccent)),
-                      prefixIcon: Icon(
-                        Icons.chat,
+                padding: const EdgeInsets.only(top: 10, left: 5, right: 5),
+                child: Transform.scale(
+                  scale: .8,
+                  child: TextFormField(
+                    style: TextStyle(
                         color: Colors.orangeAccent,
-                      ),
-                      hintText: "Descrição do Desafio",
-                      hintStyle:
-                          TextStyle(color: Colors.orangeAccent, fontSize: 20)),
+                        fontSize: MediaQuery.of(context).size.width / 20),
+                    controller: _actionDescriptionController,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: Icon(
+                          Icons.chat,
+                          color: Colors.orangeAccent,
+                        ),
+                        hintText: "Nome da Lista",
+                        hintStyle: TextStyle(
+                            color: Colors.orangeAccent,
+                            fontSize: MediaQuery.of(context).size.width / 20)),
+                  ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               child: RaisedButton(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25)),
-                color: Colors.orange,
+                    borderRadius: BorderRadius.circular(25),
+                    side: BorderSide(color: Colors.orange)),
+                color: Colors.black,
                 child: Padding(
-                  padding: const EdgeInsets.all(15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Text(
                     "Adicionar",
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.orange,
+                        fontSize: MediaQuery.of(context).size.width / 25,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
                 onPressed: () {
